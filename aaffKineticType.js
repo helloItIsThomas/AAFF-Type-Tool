@@ -14,17 +14,16 @@ let i = 0;
 let imgArray = [];
 let ptArray;
 let myFont;
-let fontSize = 600;
+let fontSize = 500;
 let imgSize = 100;
 let inputStr = "AAFF";
 let div;
 let sampleFctr;
 
-
 function preload() {
   myFont = loadFont("assets/cinetype.otf");
   for (var i = 0; i< imgNum; i++) {
-    imgArray[i] = loadImage("data/img" + i + ".jpg");
+    imgArray[i] = loadImage("data0/img" + i + ".jpg");
   }
 }
 
