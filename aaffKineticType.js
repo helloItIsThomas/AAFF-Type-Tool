@@ -14,7 +14,7 @@
 let ptArray;
 let myFont;
 let fontSize = 500;
-let imgSize = 100;
+let imgSize;
 let inputStr;
 let div;
 let sampleFctr;
@@ -22,6 +22,7 @@ var buttonArray = [];
 let numButtons = 4;
 let maxFrameRate = 0.1;
 let ctx;
+let glyph = "A";
 
 
 // num: 280
@@ -29,11 +30,16 @@ let ctx;
 // num: 286
 // num: 300
 
+// 229
+// 229
+// 229
+// 229
+
 let images = [
-  { num: 229, array: [], path: "data0/img", ext: ".jpg" },
-  { num: 229, array: [], path: "data1/image", ext: ".png" },
-  { num: 229, array: [], path: "data2/image", ext: ".png" },
-  { num: 229, array: [], path: "data3/image", ext: ".jpg" }
+  { num: 5, array: [], path: "data0/img", ext: ".jpg" },
+  { num: 5, array: [], path: "data1/image", ext: ".png" },
+  { num: 5, array: [], path: "data2/image", ext: ".png" },
+  { num: 5, array: [], path: "data3/image", ext: ".jpg" }
 ];
 
 
@@ -58,7 +64,8 @@ function setup() {
   frameRate(30);
 
   fontSize = 300;
-  imgSize = fontSize * 0.28;
+  // imgSize = fontSize * 0.28;
+  imgSize = fontSize * 0.20;
   let buttonPos = p5.Vector = createVector(imgSize, fontSize + 0.8 * imgSize);
 
   buttonArray[0] = new myButton(0, buttonPos.x, buttonPos.y, imgSize);
@@ -69,15 +76,13 @@ function setup() {
   G.cArr = images[G.activeImgSet].array;
 }
 
-//  I want to make buttons that change the image array.
-//  I also want a dynamic way to change the text.
 
 function draw() {
   G.index ++;
   background(255);
 
   ptArray = myFont.textToPoints(
-    inputStr, 0, 0, fontSize, {sampleFactor: sampleFctr}
+    glyph, 0, 0, fontSize, {sampleFactor: sampleFctr}
     );
 
 
