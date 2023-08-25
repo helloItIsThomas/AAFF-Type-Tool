@@ -20,6 +20,9 @@ let div;
 let sampleFctr;
 var buttonArray = [];
 let numButtons = 4;
+let maxFrameRate = 0.1;
+let ctx;
+
 
 // num: 280
 // num: 230
@@ -27,10 +30,10 @@ let numButtons = 4;
 // num: 300
 
 let images = [
-  { num: 5, array: [], path: "data0/img", ext: ".jpg" },
-  { num: 5, array: [], path: "data1/image", ext: ".png" },
-  { num: 5, array: [], path: "data2/image", ext: ".png" },
-  { num: 5, array: [], path: "data3/image", ext: ".jpg" }
+  { num: 229, array: [], path: "data0/img", ext: ".jpg" },
+  { num: 229, array: [], path: "data1/image", ext: ".png" },
+  { num: 229, array: [], path: "data2/image", ext: ".png" },
+  { num: 229, array: [], path: "data3/image", ext: ".jpg" }
 ];
 
 
@@ -44,19 +47,24 @@ function preload() {
 }
 
 function setup() {
-  inputStr = "AAFF";
+  inputStr = "A";
   div = 6.0;
   sampleFctr = 0.0
-  createCanvas(windowWidth, 600);
+  ctx = createCanvas(windowWidth, 600);
   imageMode(CENTER);
   textFont();
   textSize(fontSize);
   print(ptArray);
   frameRate(30);
-  buttonArray[0] = new myButton(0, 20.0, 100.0);
-  buttonArray[1] = new myButton(1, 50.0, 100.0);
-  buttonArray[2] = new myButton(2, 80.0, 100.0);
-  buttonArray[3] = new myButton(3, 110.0, 100.0);
+
+  fontSize = 300;
+  imgSize = fontSize * 0.28;
+  let buttonPos = p5.Vector = createVector(imgSize, fontSize + 0.8 * imgSize);
+
+  buttonArray[0] = new myButton(0, buttonPos.x, buttonPos.y, imgSize);
+  buttonArray[1] = new myButton(1, buttonPos.x, buttonPos.y, imgSize);
+  buttonArray[2] = new myButton(2, buttonPos.x, buttonPos.y, imgSize);
+  buttonArray[3] = new myButton(3, buttonPos.x, buttonPos.y, imgSize);
 
   G.cArr = images[G.activeImgSet].array;
 }
@@ -65,16 +73,18 @@ function setup() {
 //  I also want a dynamic way to change the text.
 
 function draw() {
-background(255);
-  fontSize = 300
-  imgSize = fontSize * 0.28
+  G.index ++;
+  background(255);
 
   ptArray = myFont.textToPoints(
     inputStr, 0, 0, fontSize, {sampleFactor: sampleFctr}
     );
 
-    if(sampleFctr < 0.1){
-      sampleFctr = frameCount * 0.001;
+
+    // The sampleFactor should go up
+    // until it reaches maxFrameRate ( max speed )
+    if( sampleFctr < maxFrameRate ){
+      sampleFctr = G.index * 0.001;
     }
 
   div = 2.0;
@@ -95,5 +105,5 @@ background(255);
     else e.handleInactive();
     e.display();
   });
-
+  mouseIsReleased = false;
 }
