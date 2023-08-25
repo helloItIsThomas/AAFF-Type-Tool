@@ -24,3 +24,15 @@ function keyPressed() {
     })
     result = computeDiagram(testSiteFromListOfPoints, bbox);
   }
+
+  function ease0( _e , _d ){
+    this.e = _e;
+    this.d = _d;
+    TweenLite.to(this.e, this.d, {value: 0})
+  }
+
+  function ease1( _e , _d ){
+    this.e = _e;
+    this.d = _d;
+    TweenLite.to(this.e.value, this.d, {value: 1})
+  }
