@@ -12,3 +12,8 @@ let G = {
     cArr: [],
     index: 0,
 }
+
+function resetAnim() {
+    G.index *= 0;
+    sampleFctr *= 0;
+}

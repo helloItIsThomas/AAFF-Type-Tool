@@ -8,6 +8,7 @@ function keyPressed() {
       && key != 'Alt' && key != 'Control' && key != 'Dead'
       && key != 'ArrowRight' && key != 'ArrowLeft' && key != 'ArrowUp' && key != 'ArrowDown') {
         glyph = String(key).toUpperCase();
+        resetAnim();
         // updateList();
       }
     }

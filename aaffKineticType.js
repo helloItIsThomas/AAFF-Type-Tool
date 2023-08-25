@@ -13,7 +13,7 @@
 // let i = 0;
 let ptArray;
 let myFont;
-let fontSize = 500;
+let fontSize;
 let imgSize;
 let inputStr;
 let div;
@@ -23,6 +23,7 @@ let numButtons = 4;
 let maxFrameRate = 0.1;
 let ctx;
 let glyph = "A";
+let buttonSize;
 
 
 // num: 280
@@ -56,33 +57,39 @@ function setup() {
   inputStr = "A";
   div = 6.0;
   sampleFctr = 0.0
-  ctx = createCanvas(windowWidth, 600);
+  ctx = createCanvas(windowWidth, windowHeight);
   imageMode(CENTER);
   textFont();
-  textSize(fontSize);
   print(ptArray);
   frameRate(30);
 
-  fontSize = 300;
-  // imgSize = fontSize * 0.28;
-  imgSize = fontSize * 0.20;
-  let buttonPos = p5.Vector = createVector(imgSize, fontSize + 0.8 * imgSize);
+  buttonSize = 50.0
+  
+  let buttonPos = p5.Vector = createVector(buttonSize, fontSize + 0.8 * buttonSize);
 
-  buttonArray[0] = new myButton(0, buttonPos.x, buttonPos.y, imgSize);
-  buttonArray[1] = new myButton(1, buttonPos.x, buttonPos.y, imgSize);
-  buttonArray[2] = new myButton(2, buttonPos.x, buttonPos.y, imgSize);
-  buttonArray[3] = new myButton(3, buttonPos.x, buttonPos.y, imgSize);
+
+  buttonArray[0] = new myButton(0, buttonPos.x, buttonPos.y, buttonSize);
+  buttonArray[1] = new myButton(1, buttonPos.x, buttonPos.y, buttonSize);
+  buttonArray[2] = new myButton(2, buttonPos.x, buttonPos.y, buttonSize);
+  buttonArray[3] = new myButton(3, buttonPos.x, buttonPos.y, buttonSize);
 
   G.cArr = images[G.activeImgSet].array;
 }
 
 
 function draw() {
+  fontSize = height * 0.5;
+  textSize(fontSize);
+  imgSize = fontSize * 0.20;
   G.index ++;
   background(255);
 
   ptArray = myFont.textToPoints(
-    glyph, 0, 0, fontSize, {sampleFactor: sampleFctr}
+    glyph,
+    ((width - textWidth(glyph)) * 0.5) - (imgSize * 0.42),
+    imgSize,
+    fontSize,
+    { sampleFactor: sampleFctr }
     );
 
 
@@ -97,7 +104,7 @@ function draw() {
   for (let n = 0; n < ptArray.length; n++){
     image(
       G.cArr[ int(frameCount*div) % G.cArr.length ],
-      (ptArray[n].x) + (width * 0.1),
+      (ptArray[n].x) + (imgSize*0.5), // + (width * 0.25),
       ptArray[n].y + height * 0.5,
       imgSize,
       imgSize
@@ -105,6 +112,8 @@ function draw() {
   }
 
   buttonArray.forEach( e => {
+    e.x = ((buttonSize + e.buttonGap) * e.id) + (width - (e.groupW)) * 0.5;
+    e.y = (fontSize + 0.8 * buttonSize) + (height*0.15);
     e.checkClick();
     if(G.activeImgSet == e.id) e.handleActive();
     else e.handleInactive();
