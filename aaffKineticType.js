@@ -54,7 +54,7 @@ function preload() {
 }
 
 function setup() {
-  noCursor();
+  // noCursor();
   inputStr = "A";
   div = 6.0;
   sampleFctr = 0.0
@@ -120,14 +120,13 @@ function draw() {
 
     if(G.activeImgSet == e.id) e.handleActive();
     else e.handleInactive();
-
     e.checkClick();
+
     e.display();
   });
   mouseIsReleased = false;
 
-  MyCursor.x = mouseX;
-  MyCursor.y = mouseY;
-  rect(MyCursor.x, MyCursor.y, MyCursor.w, MyCursor.h);
+  
+  rect(MyCursor.x - MyCursor.w * 0.5, MyCursor.y, MyCursor.w, MyCursor.h);
 }
 

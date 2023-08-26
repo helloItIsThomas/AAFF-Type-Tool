@@ -27,24 +27,25 @@ let MyCursor = {
     stroke: 255,
     strokeWeight: 4,
     isHovering: false,
-  
-    //   checkDist() {
-        //   let distance = dist(mouseX, mouseY, this.x + this.w / 2, this.y + this.h / 2);
-        //   
-        //   if (distance < 33) {
-            // if (!this.tweenTriggered) {
-            //   gsap.to(MyCursor, {w: 300, duration: 0.3, ease: "power1.out", onComplete: () => {
-                // this.tweenTriggered = true;
-            //   }});
-            // }
-            // this.isHovering = true;
-        //   } else {
-            // if (this.tweenTriggered) {
-            //   gsap.to(MyCursor, {w: 20, duration: 0.3, ease: "power1.out", onComplete: () => {
-                // this.tweenTriggered = false;
-            //   }});
-            // }
-            // this.isHovering = false;
-        //   }
-    //   }
-  }
+
+    update() {
+      // Put your update logic here
+    },
+
+    checkDist() {
+      let distance = dist(mouseX, mouseY, this.x + this.w / 2, this.y + this.h / 2);
+      if (distance < 33) {
+        if (!this.tweenTriggered) {
+          gsap.to(MyCursor, {w: 300, duration: 0.3, ease: "power1.out"});
+          this.tweenTriggered = true;
+        }
+        this.isHovering = true;
+      } else {
+        if (this.tweenTriggered) {
+          gsap.to(MyCursor, {w: 20, duration: 0.3, ease: "power1.out"});
+          this.tweenTriggered = false;
+        }
+        this.isHovering = false;
+      }
+    }
+};
