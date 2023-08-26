@@ -3,7 +3,7 @@ let prevMouseX = 0, prevMouseY = 0;
 
 class myButton {
     constructor(_id, _x, _y, w) {
-      let _w = w * 3.0;
+      let _w = w * 5.0;
       this.buttonGap = _w * 0.99;
       this.id = _id;
       this.w = _w;
@@ -31,9 +31,14 @@ class myButton {
       
 
         // THE THRESHOLD RADIUS IS A CIRCLE
+        if (distance < this.cursorDist && mouseIsReleased) {
+            G.activeImgSet = this.id;
+            resetAnim();
+        }
         if (distance < this.cursorDist && !this.clicked) {
+            this.isHovering = true;
           gsap.to(MyCursor, { 
-            w: this.w + this.buttonGap * 0.166,
+            w: this.w + this.buttonGap * 0.1,
             x: this.x + this.w / 2,
             y: this.y + this.h / 2,
             duration: dynamicDuration,
@@ -49,19 +54,28 @@ class myButton {
             ease: this.ease
           });
           this.clicked = false;
+          this.isHovering = false;
         } else {
+            // this.isHovering = false;
           MyCursor.x = mouseX;
           MyCursor.y = mouseY;
         }
       
         let localSpeed = 0.066;
         if (G.activeImgSet == this.id) {
-          gsap.to(this.alpha, localSpeed, {value: 0, ease: this.ease});
-        } else if (this.isHovering) {
-          gsap.to(this.alpha, localSpeed, {value: 200, ease: this.ease});
-        } else {
-          gsap.to(this.alpha, localSpeed, {value: 255, ease: this.ease});
-        }
+            TweenLite.to(this.alpha, localSpeed, {value: 0, ease: this.ease});
+          } else if (this.isHovering) {
+            TweenLite.to(this.alpha, localSpeed, {value: 200, ease: this.ease});
+          } else {
+            TweenLite.to(this.alpha, localSpeed, {value: 255, ease: this.ease});
+          }
+        // if (G.activeImgSet == this.id) {
+        //   gsap.to(this.alpha, localSpeed, {value: 0, ease: this.ease});
+        // } else if (this.isHovering) {
+        //   gsap.to(this.alpha, localSpeed, {value: 200, ease: this.ease});
+        // } else {
+        //   gsap.to(this.alpha, localSpeed, {value: 255, ease: this.ease});
+        // }
       }
       
   
@@ -87,6 +101,7 @@ class myButton {
     }
     
     display() {
+        console.log(G.activeImgSet);
     
         this.img = images[this.id].array[int(frameCount*div) % G.cArr.length ];
         stroke(0);
@@ -111,14 +126,8 @@ class myButton {
             // else if(this.isHovering)            this.alpha.value = 200 
             // else this.alpha.value =             this.alpha.value = 255 
             let localSpeed = 0.066
-            let localEase = Power1.easeInOut;
-            if (G.activeImgSet == this.id) {
-                TweenLite.to(this.alpha, localSpeed, {value: 0, ease: this.ease});
-              } else if (this.isHovering) {
-                TweenLite.to(this.alpha, localSpeed, {value: 200, ease: this.ease});
-              } else {
-                TweenLite.to(this.alpha, localSpeed, {value: 255, ease: this.ease});
-              }
+
+
               
             this.fill.setAlpha(this.alpha.value);
             // this.fill.setAlpha(0);
@@ -129,7 +138,6 @@ class myButton {
                 this.w,
                 this.h
                 );
-                
     }
   }
 

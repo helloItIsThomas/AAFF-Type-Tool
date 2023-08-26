@@ -24,6 +24,8 @@ let maxFrameRate = 0.1;
 let ctx;
 let glyph = "A";
 let buttonSize;
+let buttonPos;
+let buttonMargin = 50;
 
 
 // num: 280
@@ -36,13 +38,14 @@ let buttonSize;
 // 229
 // 229
 
-let images = [
-  { num: 5, array: [], path: "data0/img", ext: ".jpg" },
-  { num: 5, array: [], path: "data1/image", ext: ".png" },
-  { num: 5, array: [], path: "data2/image", ext: ".png" },
-  { num: 5, array: [], path: "data3/image", ext: ".jpg" }
-];
+let numImgs = 229;
 
+let images = [
+  { num: numImgs, array: [], path: "data0/img", ext: ".jpg" },
+  { num: numImgs, array: [], path: "data1/image", ext: ".png" },
+  { num: numImgs, array: [], path: "data2/image", ext: ".png" },
+  { num: numImgs, array: [], path: "data3/image", ext: ".jpg" }
+];
 
 function preload() {
   myFont = loadFont("assets/cinetype.otf");
@@ -54,7 +57,7 @@ function preload() {
 }
 
 function setup() {
-  // noCursor();
+  noCursor();
   inputStr = "A";
   div = 6.0;
   sampleFctr = 0.0
@@ -66,20 +69,18 @@ function setup() {
 
   buttonSize = 50.0
   
-  let buttonPos = p5.Vector = createVector(buttonSize, fontSize + 0.8 * buttonSize);
-
-
-  buttonArray[0] = new myButton(0, buttonPos.x, buttonPos.y, buttonSize);
-  buttonArray[1] = new myButton(1, buttonPos.x, buttonPos.y, buttonSize);
-  buttonArray[2] = new myButton(2, buttonPos.x, buttonPos.y, buttonSize);
-  buttonArray[3] = new myButton(3, buttonPos.x, buttonPos.y, buttonSize);
+  buttonPos = p5.Vector = createVector(buttonSize, fontSize + 0.8 * buttonSize);
+  buttonArray[0] = new myButton(0, 0, 0, buttonSize);
+  buttonArray[1] = new myButton(1, 0, 0, buttonSize);
+  buttonArray[2] = new myButton(2, 0, 0, buttonSize);
+  buttonArray[3] = new myButton(3, 0, 0, buttonSize);
 
   G.cArr = images[G.activeImgSet].array;
 }
 
 
 function draw() {
-  fontSize = height * 0.5;
+  fontSize = height * 0.85;
   textSize(fontSize);
   imgSize = fontSize * 0.20;
   G.index ++;
@@ -106,21 +107,31 @@ function draw() {
     image(
       G.cArr[ int(frameCount*div) % G.cArr.length ],
       (ptArray[n].x) + (imgSize*0.5), // + (width * 0.25),
-      ptArray[n].y + height * 0.5,
+      ptArray[n].y + height * 0.65,
       imgSize,
       imgSize
       );
   }
 
+  buttonArray[0].x = buttonMargin;
+  buttonArray[0].y = buttonMargin;
+  buttonArray[1].x = width - 290.0;
+  buttonArray[1].y = buttonMargin;
+  buttonArray[2].x = width - 290.0;
+  buttonArray[2].y = height - buttonMargin - 250.0;
+  buttonArray[3].x = buttonMargin;
+  buttonArray[3].y = height - buttonMargin - 250.0;
+
+
   
-
+  
   buttonArray.forEach( e => {
-    e.x = ((buttonSize + e.buttonGap) * e.id) + (width - (e.groupW)) * 0.5;
-    e.y = (fontSize + 0.8 * buttonSize) + (height*0.15);
+    // e.x = ((buttonSize + e.buttonGap) * e.id) + (width - (e.groupW)) * 0.5;
+    // e.y = (fontSize + 0.8 * buttonSize) + (height*0.15);
 
+    e.checkClick();
     if(G.activeImgSet == e.id) e.handleActive();
     else e.handleInactive();
-    e.checkClick();
 
     e.display();
   });
