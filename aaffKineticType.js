@@ -54,6 +54,7 @@ function preload() {
 }
 
 function setup() {
+  noCursor();
   inputStr = "A";
   div = 6.0;
   sampleFctr = 0.0
@@ -61,7 +62,7 @@ function setup() {
   imageMode(CENTER);
   textFont();
   print(ptArray);
-  frameRate(30);
+  frameRate(60);
 
   buttonSize = 50.0
   
@@ -111,13 +112,22 @@ function draw() {
       );
   }
 
+  
+
   buttonArray.forEach( e => {
     e.x = ((buttonSize + e.buttonGap) * e.id) + (width - (e.groupW)) * 0.5;
     e.y = (fontSize + 0.8 * buttonSize) + (height*0.15);
-    e.checkClick();
+
     if(G.activeImgSet == e.id) e.handleActive();
     else e.handleInactive();
+
+    e.checkClick();
     e.display();
   });
   mouseIsReleased = false;
+
+  MyCursor.x = mouseX;
+  MyCursor.y = mouseY;
+  rect(MyCursor.x, MyCursor.y, MyCursor.w, MyCursor.h);
 }
+
